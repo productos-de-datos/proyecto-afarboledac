@@ -1,7 +1,6 @@
 import glob
 import pandas as pd
 import os
-import openpyxl
 
 
 def main():
@@ -17,7 +16,8 @@ def transform_data():
     H23.
 
     """
-    module_path = os.path.dirname(__file__)
+    module_path = os.path.dirname(os.path.realpath(__file__))
+
     folder_path = os.path.join(module_path, "../../data_lake/landing/*")
 
     files = glob.glob(folder_path)
