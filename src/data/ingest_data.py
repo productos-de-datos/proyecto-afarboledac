@@ -4,7 +4,6 @@ Módulo de ingestión de datos.
 
 """
 import pandas as pd
-import openpyxl
 import xlwt
 import os
 
