@@ -1,3 +1,12 @@
+import glob
+import pandas as pd
+import os
+
+
+def main():
+    transform_data()
+
+
 def transform_data():
     """Transforme los archivos xls a csv.
 
@@ -7,10 +16,30 @@ def transform_data():
     H23.
 
     """
-    raise NotImplementedError("Implementar esta función")
+    module_path = os.path.dirname(__file__)
+    folder_path = os.path.join(module_path, "../../data_lake/landing/*")
+
+    files = glob.glob(folder_path)
+
+    target_folder = os.path.join(module_path, "../../data_lake/raw/")
+
+    for file in files:
+        # print("Archivos de landing: " + file)
+        xlsx_file = pd.read_excel(file)
+        # xlsx_file = xlsx_file.fillna(0)
+        filename_absolute = os.path.basename(file)
+        file_name = os.path.splitext(filename_absolute)[0]
+
+        filename = os.path.join(target_folder, file_name + ".csv")
+        # print("Archivos de raw: " + filename)
+
+        xlsx_file.to_csv(filename)
+
+    # print("Archivos movidos a raw correctamente")
 
 
 if __name__ == "__main__":
     import doctest
 
+    main()
     doctest.testmod()

@@ -37,3 +37,20 @@ indicadas en cada una de ellas:
 * Debe crear tests (pytest) para verificar que las funciones operan correctamente.
 
 * Debe incorporar tests de datos para garantizar que los datos son correctos tanto a la entrada como a la salida de cada función.
+
+## Para correr el proyecto se debe de crear un ambiente en venv, para esto primero actualizamos las dependencias y luego ##instalamos venv con los comandos 
+
+apt update
+apt install python3.8-venv
+
+## Crear el ambiente virtual
+python3 -m venv .venv
+
+## activar el ambiente virtual
+source .venv/bin/activate
+
+## Antes de correr el proyecto se deben de instalar instalar las librerias requeridas que estan en el archivo requirements
+pip3 install -r requirements.txt
+
+
+
