@@ -123,7 +123,7 @@
     {
       "name": "Test 13",
       "setup": "pip3 install matplotlib sklearn pandas luigi pytest pylint",
-      "run": "pylint src/*/compute*.py",
+      "run": "pylint src/*/*.py",
       "input": "",
       "output": "",
       "comparison": "included",
@@ -133,7 +133,7 @@
     {
       "name": "Test 14",
       "setup": "pip3 install matplotlib sklearn pandas luigi pytest pylint",
-      "run": "python3 -m doctest -v src/data/*.py",
+      "run": "python3 -m doctest -v src/data/compute*.py",
       "input": "",
       "output": "",
       "comparison": "included",
