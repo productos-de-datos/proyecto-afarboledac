@@ -1,7 +1,7 @@
 import glob
 import pandas as pd
 import os
-import openpyxl
+import subprocess
 
 
 def main():
@@ -17,6 +17,9 @@ def transform_data():
     H23.
 
     """
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "openpyxl"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "xlrd"])
+
     module_path = os.path.dirname(os.path.realpath(__file__))
 
     folder_path = os.path.join(module_path, "../../data_lake/landing/*")
