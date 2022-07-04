@@ -20,7 +20,7 @@ class CreateDatalake(luigi.Task):
         out = self.output().open("w")
         out.write("complete")
         out.close()
-        create_data_lake.main()
+        create_data_lake.create_data_lake()
 
     def complete(self):
         print(
@@ -38,7 +38,7 @@ class IngestData(luigi.Task):
         return MockTarget("IngestData")
 
     def run(self):
-        ingest_data.main()
+        ingest_data.ingest_data()
         out = self.output().open("w")
         out.write("complete")
         out.close()
@@ -63,7 +63,7 @@ class TransformData(luigi.Task):
         return MockTarget("TransformData")
 
     def run(self):
-        transform_data.main()
+        transform_data.transform_data()
         out = self.output().open("w")
         out.write("complete")
         out.close()
@@ -88,7 +88,7 @@ class CleanData(luigi.Task):
         return MockTarget("CleanData")
 
     def run(self):
-        clean_data.main()
+        clean_data.clean_data()
         out = self.output().open("w")
         out.write("complete")
         out.close()
@@ -113,7 +113,7 @@ class ComputeDailyPrices(luigi.Task):
         return MockTarget("ComputeDailyPrices")
 
     def run(self):
-        compute_daily_prices.main()
+        compute_daily_prices.compute_daily_prices()
         out = self.output().open("w")
         out.write("complete")
         out.close()
@@ -138,7 +138,7 @@ class ComputeMonthlyPrices(luigi.Task):
         return MockTarget("ComputeMonthlyPrices")
 
     def run(self):
-        compute_monthly_prices.main()
+        compute_monthly_prices.compute_monthly_prices()
         out = self.output().open("w")
         out.write("complete")
         out.close()
