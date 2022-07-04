@@ -1,13 +1,13 @@
+"""
+Funciones encargadas de hacer un pronostico de los precios de la energia
+para lo cual carga un modelo existente en un archivo .pickle en la ruta de src/models
+"""
 import os
-import pandas as pd
 import pickle
+import pandas as pd
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 import matplotlib.pyplot as plt
-
-
-def main():
-    make_forecasts()
 
 
 def make_forecasts():
@@ -41,27 +41,27 @@ def make_forecasts():
     fechas, precios = cargar_archivo(module_path)
     scaler, precios_scaled = escalar_precios(precios)
 
-    P = 30
-    steps = 1800
-    X = []
-    for t in range(P - 1, len(precios_scaled) - 1):
-        X.append([precios_scaled[t - n] for n in range(P)])
+    dias_pasados = 30
+    training_rows = 1800
+    data = []
+    for registro in range(dias_pasados - 1, len(precios_scaled) - 1):
+        data.append([precios_scaled[registro - n] for n in range(dias_pasados)])
 
     mlpregresor = cargar_modelo(ruta_modelo)
-    y_scaled_m1 = mlpregresor.predict(X)
-    fechas_scaled = fechas[P:]
+    y_scaled_m1 = mlpregresor.predict(data)
+    fechas_scaled = fechas[dias_pasados:]
 
     y_m1 = scaler.inverse_transform([[u] for u in y_scaled_m1])
     y_m1 = [u[0] for u in y_m1]
 
-    guardar_pronostico(forecast_path, fechas, precios, P, y_m1)
+    guardar_pronostico(forecast_path, fechas, precios, dias_pasados, y_m1)
 
     graficar_pronostico(
         forecast_figure_path,
         report_figure_path,
         fechas,
         precios,
-        steps,
+        training_rows,
         fechas_scaled,
         y_m1,
     )
@@ -76,6 +76,9 @@ def graficar_pronostico(
     fechas_scaled,
     y_m1,
 ):
+    """
+    Funcion encargada de graficar el pronostico
+    """
     plt.figure(figsize=(14, 5))
     plt.plot(fechas, precios, ".-k")
     plt.grid()
@@ -85,14 +88,25 @@ def graficar_pronostico(
     plt.savefig(report_figure_path)
 
 
-def guardar_pronostico(target_path, fechas, precios, P, y_m1):
+def guardar_pronostico(target_path, fechas, precios, dias_pasados, y_m1):
+    """
+    Funcion encargada de guardar el los datos reales y pronostico en un dataframe
+    dada una ruta donde va a quedar guardada
+    """
     pronosticos = pd.DataFrame(
-        {"Fecha": fechas, "Precios": precios, "Pronostico": [None] * P + y_m1}
+        {
+            "Fecha": fechas,
+            "Precios": precios,
+            "Pronostico": [None] * dias_pasados + y_m1,
+        }
     )
     pronosticos.to_csv(target_path, index=False)
 
 
 def cargar_archivo(module_path):
+    """
+    Funcion encargada de cargar un dataframe dada la ubicaci[on del archivo
+    """
     folder_path = os.path.join(
         module_path, "../../data_lake/business/precios-diarios.csv"
     )
@@ -103,6 +117,9 @@ def cargar_archivo(module_path):
 
 
 def escalar_precios(precios):
+    """
+    Funcion encargada de escalar los archviso en un rango de -1,1
+    """
     scaler = MinMaxScaler()
 
     # escala la serie
@@ -115,12 +132,15 @@ def escalar_precios(precios):
 
 
 def cargar_modelo(ruta):
-    with open(ruta, "rb") as f:
-        return pickle.load(f)
+    """
+    Funcion encargada de cargar un modelo .pkl dada una ruta
+    """
+    with open(ruta, "rb") as file:
+        return pickle.load(file)
 
 
 if __name__ == "__main__":
     import doctest
 
-    main()
+    make_forecasts()
     doctest.testmod()

@@ -1,16 +1,14 @@
-import pandas as pd
-from sklearn.metrics import mean_squared_error
-import matplotlib.pyplot as plt
-import numpy as np
+"""
+Funciones encargadas de entrenar un modelo con los datos de business/precios-diarios.csv
+donde se escalan los precios en un rango de -1,1 .Se entrena un modelo MLPRegressor
+el cual se guarda en la ruta src/models
+"""
 import os
+import pickle
+import pandas as pd
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.neural_network import MLPRegressor
-import pickle
-
-
-def main():
-    train_daily_model()
 
 
 def train_daily_model():
@@ -29,25 +27,24 @@ def train_daily_model():
     target_folder = os.path.join(module_path, "../../models/precios-diarios.pkl")
     model_path = os.path.join(module_path, "precios-diarios.pkl")
 
-    steps = 1800
-    P = 30
+    training_rows = 1800
+    dias_pasados = 30
 
-    fechas = precios_diarios.Fecha.values
     precios = precios_diarios.Precio.values
 
     precios_scaled = escalar_precios(precios)
-    X = []
-    for t in range(P - 1, len(precios_scaled) - 1):
-        X.append([precios_scaled[t - n] for n in range(P)])
+    data = []
+    for registro in range(dias_pasados - 1, len(precios_scaled) - 1):
+        data.append([precios_scaled[registro - n] for n in range(dias_pasados)])
 
-    observed_scaled = precios_scaled[P:]
+    observed_scaled = precios_scaled[dias_pasados:]
 
     np.random.seed(123456)
 
-    H = 1  # Se escoge arbitrariamente
+    hidden_layer_size = 1  # Se escoge arbitrariamente
 
     mlp = MLPRegressor(
-        hidden_layer_sizes=(H,),
+        hidden_layer_sizes=(hidden_layer_size,),
         activation="logistic",
         learning_rate="adaptive",
         momentum=0.0,
@@ -56,7 +53,10 @@ def train_daily_model():
     )
 
     # Entrenamiento
-    mlp.fit(X[0 : len(precios) - steps], observed_scaled[0 : len(precios) - steps])
+    mlp.fit(
+        data[0 : len(precios) - training_rows],
+        observed_scaled[0 : len(precios) - training_rows],
+    )
 
     with open(model_path, "wb") as files:
         pickle.dump(mlp, files)
@@ -70,6 +70,9 @@ def train_daily_model():
 
 
 def cargar_archivo(module_path):
+    """
+    Funcion encargada de cargar un archivo en un pandas dada una ruta del archivo
+    """
     folder_path = os.path.join(
         module_path, "../../data_lake/business/precios-diarios.csv"
     )
@@ -78,10 +81,9 @@ def cargar_archivo(module_path):
 
 
 def escalar_precios(precios):
-    #
-    # Como primer paso se escala la serie al intervalo [0, 1]
-    # ya que esto facilita el entrenamiento del modelo
-    #
+    """
+    Funcion encargada de escalar los archviso en un rango de -1,1
+    """
 
     # crea el transformador
     scaler = MinMaxScaler()
@@ -98,5 +100,5 @@ def escalar_precios(precios):
 if __name__ == "__main__":
     import doctest
 
-    main()
+    train_daily_model()
     doctest.testmod()

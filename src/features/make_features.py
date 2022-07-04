@@ -1,9 +1,9 @@
+"""
+Funciones encargadas de generar nuevas features apartir de los archivos de la zona cleansed
+se calulan los maximos y minimos mensuales y se exportan a un archivo en la zona features
+"""
 import os
 import pandas as pd
-
-
-def main():
-    make_features()
 
 
 def make_features():
@@ -34,11 +34,18 @@ def make_features():
 
 
 def guardar_features(target_folder, min_mensual, max_mensual):
+    """
+    funcion encargada de guardar un archivo csv dado un dataframe con los maximos
+    y minimos mensuales en un csv dada una ubicacion
+    """
     features = pd.concat([min_mensual, max_mensual], axis=1)
     features.to_csv(target_folder, index=True)
 
 
 def calcular_features(folder_path):
+    """
+    funcion encargada de calcular dada un ruta de un archivo, los maximos y minimos mensuales
+    """
     precios_diarios = pd.read_csv(folder_path, parse_dates=["Fecha"])
     min_mensual = (
         precios_diarios.groupby(pd.Grouper(key="Fecha", freq="M"))
@@ -56,5 +63,5 @@ def calcular_features(folder_path):
 if __name__ == "__main__":
     import doctest
 
-    main()
+    make_features()
     doctest.testmod()
