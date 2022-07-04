@@ -42,7 +42,7 @@ make_features:
 	python3 src/features/make_features.py
 
 train_model:
-	python3 src/models/train_daily_model.py
+	python3 src/models/train_daily_data.py
 
 make_forecasts:
 	python3 src/models/make_forecasts.py
