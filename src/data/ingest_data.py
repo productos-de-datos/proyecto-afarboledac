@@ -3,7 +3,9 @@ Módulo de ingestión de datos.
 -------------------------------------------------------------------------------
 
 """
-import wget
+import pandas as pd
+import openpyxl
+import xlwt
 import os
 
 
@@ -55,9 +57,9 @@ def ingest_data():
 
     for file in files:
         url_file_download = URL.format(file)
-        folder_path = os.path.join(module_path, download_folder)
-        response = wget.download(url_file_download, folder_path)
-
+        folder_path = os.path.join(module_path, download_folder, file)
+        descarga = pd.read_excel(url_file_download)
+        descarga.to_excel(folder_path)
     # print("")
     # print("archivos descargados correctamente!!")
 
