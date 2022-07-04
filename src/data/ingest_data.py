@@ -3,8 +3,7 @@ Módulo de ingestión de datos.
 -------------------------------------------------------------------------------
 
 """
-import pandas as pd
-import xlwt
+import urllib.request
 import os
 
 
@@ -51,16 +50,12 @@ def ingest_data():
         "2021.xlsx",
     ]
 
-    download_folder = "../../data_lake/landing/"
-    module_path = os.path.dirname(__file__)
+    download_folder = "data_lake/landing/"
+    os.chdir(download_folder)
 
     for file in files:
         url_file_download = URL.format(file)
-        folder_path = os.path.join(module_path, download_folder, file)
-        descarga = pd.read_excel(url_file_download)
-        descarga.to_excel(folder_path)
-    # print("")
-    # print("archivos descargados correctamente!!")
+        urllib.request.urlretrieve(url_file_download, file)
 
 
 if __name__ == "__main__":
