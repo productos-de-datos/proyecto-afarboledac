@@ -7,10 +7,6 @@ import urllib.request
 import os
 
 
-def main():
-    ingest_data()
-
-
 def ingest_data():
     """Ingeste los datos externos a la capa landing del data lake.
 
@@ -19,7 +15,8 @@ def ingest_data():
     descarga debe realizarse usando únicamente funciones de Python.
 
     """
-    URL = "https://raw.githubusercontent.com/jdvelasq/datalabs/master/datasets/precio_bolsa_nacional/xls/{}"
+    urlgithub = "https://raw.githubusercontent.com/jdvelasq/datalabs"
+    url = urlgithub + "/master/datasets/precio_bolsa_nacional/xls/{}"
     files = [
         "1995.xlsx",
         "1996.xlsx",
@@ -54,12 +51,12 @@ def ingest_data():
     os.chdir(download_folder)
 
     for file in files:
-        url_file_download = URL.format(file)
+        url_file_download = url.format(file)
         urllib.request.urlretrieve(url_file_download, file)
 
 
 if __name__ == "__main__":
     import doctest
 
-    main()
+    ingest_data()
     doctest.testmod()

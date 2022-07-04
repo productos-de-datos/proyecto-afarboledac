@@ -1,8 +1,7 @@
+"""
+Funcion encargada de crear un datalake y sus zonas
+"""
 import os
-
-
-def main():
-    create_data_lake()
 
 
 def create_data_lake():
@@ -10,22 +9,6 @@ def create_data_lake():
 
     Esta función debe crear la carpeta `data_lake` en la raiz del proyecto. El data lake contiene
     las siguientes subcarpetas:
-
-    ```
-    .
-    |
-    \___ data_lake/
-         |___ landing/
-         |___ raw/
-         |___ cleansed/
-         \___ business/
-              |___ reports/
-              |    |___ figures/
-              |___ features/
-              |___ forecasts/
-
-    ```
-
 
     """
 
@@ -53,5 +36,5 @@ def create_data_lake():
 if __name__ == "__main__":
     import doctest
 
-    main()
+    create_data_lake()
     doctest.testmod()

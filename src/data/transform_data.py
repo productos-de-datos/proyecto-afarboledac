@@ -1,12 +1,11 @@
-import glob
-import pandas as pd
+"""
+Funciones para transformar los datos del datalake, desde la zona landing a raw
+"""
 import os
 import subprocess
 import sys
-
-
-def main():
-    transform_data()
+import glob
+import pandas as pd
 
 
 def transform_data():
@@ -47,5 +46,5 @@ def transform_data():
 if __name__ == "__main__":
     import doctest
 
-    main()
+    transform_data()
     doctest.testmod()

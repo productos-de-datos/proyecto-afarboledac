@@ -1,13 +1,15 @@
-import pandas as pd
-import glob
+"""
+Funciones para limpiarlos datos de la zona landing a la zona raw
+"""
 import os
-
-
-def main():
-    clean_data()
+import glob
+import pandas as pd
 
 
 def buscar_cabecera(file_path):
+    """
+    buscar_cabecera para encontrar el header de un archivo, retornando la posicion del header
+    """
     myfile = open(file_path, "r")
     header_position = 0
     for line in myfile:
@@ -20,17 +22,20 @@ def buscar_cabecera(file_path):
 
 
 def cargar_archivo(file_path):
+    """
+    Carga el archivo en csv y omite la cabecera
+    """
     archivo_encontrado = pd.read_csv(
-        file_path,
-        skiprows=buscar_cabecera(file_path),
-        header=None,
-        index_col=0,
+        file_path, skiprows=buscar_cabecera(file_path), header=None, index_col=0,
     )
 
     return archivo_encontrado
 
 
 def consolidar_archivos(file_path):
+    """
+    Funcion encargada de tomar todos los archivos dada una ruta y consolidarlos
+    """
     appended_data = []
     for file in file_path:
         archivo_formateado = cargar_archivo(file)
@@ -42,6 +47,9 @@ def consolidar_archivos(file_path):
 
 
 def formatear_archivo(resultado):
+    """
+    Para un archivo le asigna la cabecera general utilizada para consolidar
+    """
     cabecera_subset = [
         "Fecha",
         "0",
@@ -84,7 +92,8 @@ def formatear_archivo(resultado):
 def clean_data():
     """Realice la limpieza y transformación de los archivos CSV.
 
-    Usando los archivos data_lake/raw/*.csv, cree el archivo data_lake/cleansed/precios-horarios.csv.
+    Usando los archivos data_lake/raw/*.csv, cree el archivo
+    data_lake/cleansed/precios-horarios.csv.
     Las columnas de este archivo son:
 
     * fecha: fecha en formato YYYY-MM-DD
@@ -111,5 +120,5 @@ def clean_data():
 if __name__ == "__main__":
     import doctest
 
-    main()
+    clean_data()
     doctest.testmod()

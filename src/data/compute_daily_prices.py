@@ -1,9 +1,9 @@
+"""
+Funciones encargadas de computar los precios promedio diarios apartir de los archivos
+de la zona cleansed y son guardados en la zona business
+"""
 import os
 import pandas as pd
-
-
-def main():
-    compute_daily_prices()
 
 
 def compute_daily_prices():
@@ -43,5 +43,5 @@ def compute_daily_prices():
 if __name__ == "__main__":
     import doctest
 
-    main()
+    compute_daily_prices()
     doctest.testmod()
