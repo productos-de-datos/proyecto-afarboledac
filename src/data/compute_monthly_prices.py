@@ -19,14 +19,13 @@ def compute_monthly_prices():
     * precio: precio promedio mensual de la electricidad en la bolsa nacional
     >>> compute_monthly_prices()
                    Precio
-    Fecha                
+    Fecha
     1995-07-31   1.540199
     1995-08-31   7.086462
     1995-09-30  10.955819
     1995-10-31  10.445442
     1995-11-30  27.534782
     """
-
     module_path = os.path.dirname(__file__)
     folder_path = os.path.join(
         module_path, "../../data_lake/cleansed/precios-horarios.csv"

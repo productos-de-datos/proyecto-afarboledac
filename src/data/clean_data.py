@@ -10,14 +10,13 @@ def buscar_cabecera(file_path):
     """
     buscar_cabecera para encontrar el header de un archivo, retornando la posicion del header
     """
-    myfile = open(file_path, "r")
-    header_position = 0
-    for line in myfile:
-        header_position += 1
-        if "Fecha" in line:
-            return header_position
+    with open(file_path, mode="r", encoding="UTF-8") as myfile:
+        header_position = 0
+        for line in myfile:
+            header_position += 1
+            if "Fecha" in line:
+                return header_position
 
-    myfile.close()
     return header_position
 
 
