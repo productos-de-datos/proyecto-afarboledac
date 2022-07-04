@@ -19,7 +19,7 @@ def compute_monthly_prices():
     * precio: precio promedio mensual de la electricidad en la bolsa nacional
     >>> compute_monthly_prices()
                    Precio
-    Fecha                
+    Fecha
     1995-07-31   1.540199
     1995-08-31   7.086462
     1995-09-30  10.955819
